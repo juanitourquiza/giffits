@@ -1,32 +1,31 @@
 <template>
   <v-container grid-list-lg>
-    <v-layout wrap>
+    <v-layout wrap v-for="item in usuario" :key="item.id">
       <v-flex xs12>
         <v-btn to="/usuarios" color="primary">Listado</v-btn>
-        <v-btn :to="`${$route.params.id}/tareas`" color="green" dark
+        <v-btn :to="`/usuariosborrar/${item.id}`" color="green" dark
           >Borrar</v-btn
         >
         <v-btn @click="irTareasProgramatico" color="brown" dark>Editar</v-btn>
       </v-flex>
+
       <v-flex xs12 sm12>
         <panel titulo="Información General">
-          <div v-for="item in usuario" :key="item.id">
-            <div>
-              <span class="title">Nombre:</span>
-              <span class="subheading">{{ item.name }}</span>
-            </div>
-            <div class="mt-2">
-              <span class="title">Apellido:</span>
-              <span class="subheading">{{ item.lastname }}</span>
-            </div>
-            <div class="mt-2">
-              <span class="title">Email:</span>
-              <span class="subheading">{{ item.email }}</span>
-            </div>
-            <div class="mt-2">
-              <span class="title">Ci:</span>
-              <span class="subheading">{{ item.ci }}</span>
-            </div>
+          <div>
+            <span class="title">Nombre:</span>
+            <span class="subheading">{{ item.name }}</span>
+          </div>
+          <div class="mt-2">
+            <span class="title">Apellido:</span>
+            <span class="subheading">{{ item.lastname }}</span>
+          </div>
+          <div class="mt-2">
+            <span class="title">Email:</span>
+            <span class="subheading">{{ item.email }}</span>
+          </div>
+          <div class="mt-2">
+            <span class="title">Ci:</span>
+            <span class="subheading">{{ item.ci }}</span>
           </div>
         </panel>
       </v-flex>

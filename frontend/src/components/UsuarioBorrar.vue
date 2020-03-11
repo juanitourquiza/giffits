@@ -1,38 +1,9 @@
 <template>
-  <v-container grid-list-lg>
-    <v-layout wrap>
-      <v-flex xs12>
-        <v-btn to="/usuarios" color="primary">Listado</v-btn>
-        <v-btn :to="`${$route.params.id}/tareas`" color="green" dark
-          >Borrar</v-btn
-        >
-        <v-btn @click="irTareasProgramatico" color="brown" dark>Editar</v-btn>
-      </v-flex>
-      <v-flex xs12 sm12>
-        <panel titulo="Información General">
-          <div v-for="item in usuario" :key="item.id">
-            <div>
-              <span class="title">Nombre:</span>
-              <span class="subheading">{{ item.name }}</span>
-            </div>
-            <div class="mt-2">
-              <span class="title">Apellido:</span>
-              <span class="subheading">{{ item.lastname }}</span>
-            </div>
-            <div class="mt-2">
-              <span class="title">Email:</span>
-              <span class="subheading">{{ item.email }}</span>
-            </div>
-            <div class="mt-2">
-              <span class="title">Ci:</span>
-              <span class="subheading">{{ item.ci }}</span>
-            </div>
-          </div>
-        </panel>
-      </v-flex>
-
-      <v-flex xs12>
-        <router-view />
+  <v-container fill-height>
+    <v-layout align-center justify-center>
+      <v-flex class="text-xs-center">
+        <h4>El Usuario se borro de la base de datos</h4>
+        <router-link to="/usuarios">Ir a usuarios</router-link>
       </v-flex>
     </v-layout>
   </v-container>
@@ -60,24 +31,6 @@ export default {
       .catch(error => {
         console.log(error);
       });
-  },
-  methods: {
-    irTareasProgramatico() {
-      var id = this.$route.params.id;
-      // pasandole un string
-      //this.$router.push(`/usuarios/${id}/tareas`)
-      // pasando un objeto
-      /*this.$router.push({
-                path:`/usuarios/${id}/tareas`
-            })*/
-      //Usar rutas nombradas
-      this.$router.push({
-        name: "listaTareas",
-        params: {
-          id: id
-        }
-      });
-    }
   }
 };
 </script>

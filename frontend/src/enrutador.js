@@ -6,6 +6,7 @@ Vue.use(VueRouter);
 import Home from "./components/Home.vue";
 import Usuarios from "./components/Usuarios.vue";
 import UsuarioInfo from "./components/UsuarioInfo.vue";
+import UsuarioBorrar from "./components/UsuarioBorrar.vue";
 import Error404 from "./components/Error404.vue";
 
 const rutas = [
@@ -31,6 +32,10 @@ const rutas = [
                 component:ListaTareas
             }
         ]*/
+  },
+  {
+    path: "/usuariosborrar/:id",
+    component: UsuarioBorrar
   },
   {
     path: "/users",
