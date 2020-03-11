@@ -6,15 +6,19 @@
           <v-toolbar color="green" dark flat>
             <v-toolbar-title>LISTA DE USUARIOS</v-toolbar-title>
           </v-toolbar>
-          <v-list>
-            <v-list-tile
-              :to="`/usuarios/${usuario.id}`"
-              v-for="usuario in usuarios"
-              :key="usuario.id"
-            >
-              {{ usuario.name }}
-            </v-list-tile>
-          </v-list>
+          <ul>
+            <ul>
+              <li
+                v-for="(value, key, index) in usuarios"
+                :key="key"
+              >{{ index }}. {{ key }} - {{ value }}</li>
+            </ul>
+            <li
+                v-for="(value, key, index) in personal"
+                :key="key"
+              >{{ index }}. {{ key }} - {{ value }}</li>
+            </ul>
+          </ul>
         </v-card>
       </v-flex>
     </v-layout>
