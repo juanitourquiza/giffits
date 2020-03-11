@@ -52,6 +52,7 @@ class PersonalController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
 
+
             return $this->json([
                 'status' => 'sucess', 'data' => 'Usuario creado'
             ]);

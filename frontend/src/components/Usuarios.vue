@@ -16,6 +16,7 @@
             </v-list-tile>
           </v-list>
         </v-card>
+        <v-btn to="/usuariosagregar" color="primary">Nuevo</v-btn>
       </v-flex>
     </v-layout>
   </v-container>
