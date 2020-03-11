@@ -8,6 +8,7 @@ import Usuarios from "./components/Usuarios.vue";
 import UsuarioInfo from "./components/UsuarioInfo.vue";
 import UsuarioBorrar from "./components/UsuarioBorrar.vue";
 import UsuarioAgregar from "./components/UsuarioAgregar.vue";
+import UsuarioEditar from "./components/UsuarioEditar.vue";
 import Error404 from "./components/Error404.vue";
 
 const rutas = [
@@ -41,6 +42,10 @@ const rutas = [
   {
     path: "/usuariosagregar",
     component: UsuarioAgregar
+  },
+  {
+    path: "/usuarioseditar/:id",
+    component: UsuarioEditar
   },
   {
     path: "/users",

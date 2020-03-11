@@ -3,10 +3,8 @@
     <v-layout wrap v-for="item in usuario" :key="item.id">
       <v-flex xs12>
         <v-btn to="/usuarios" color="primary">Listado</v-btn>
-        <v-btn :to="`/usuariosborrar/${item.id}`" color="green" dark
-          >Borrar</v-btn
-        >
-        <v-btn @click="irTareasProgramatico" color="brown" dark>Editar</v-btn>
+        <v-btn :to="`/usuariosborrar/${item.id}`" color="green" dark>Borrar</v-btn>
+        <v-btn :to="`/usuarioseditar/${item.id}`" color="brown" dark>Editar</v-btn>
       </v-flex>
 
       <v-flex xs12 sm12>
@@ -29,7 +27,7 @@
           </div>
         </panel>
       </v-flex>
-
+      <v-btn to="/usuariosagregar" color="primary">Nuevo</v-btn>
       <v-flex xs12>
         <router-view />
       </v-flex>

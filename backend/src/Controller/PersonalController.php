@@ -77,23 +77,47 @@ class PersonalController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="personal_edit", methods={"GET","POST"})
+     * @Route("/personal/{id}", name="personal_edit", methods={"PUT"})
      */
-    public function edit(Request $request, Personal $personal): Response
+    public function edit(Request $request): Response
     {
-        $form = $this->createForm(PersonalType::class, $personal);
-        $form->handleRequest($request);
+        //Traigo el id del usuario
+        $id = $request->get("id");
+        $json = $request->get("json", null);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+        $em = $this->getDoctrine()->getManager();
+        //Devuelve un objeto
+        $user = $em->getRepository(Personal::class)->findOneBy(
+            array(
+                "id" => $id
+            )
+        );
+        if ($json != null) {
+            $params = json_decode($json);
+            $name = $params->name;
+            $lastname = $params->lastname;
+            $email = $params->email;
+            $ci = $params->ci;
 
-            return $this->redirectToRoute('personal_index');
+            //$user = new Personal();
+            $user->setName($name);
+            $user->setLastname($lastname);
+            $user->setEmail($email);
+            $user->setCi($ci);
+
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($user);
+            $entityManager->flush();
+
+
+            return $this->json([
+                'status' => 'sucess', 'data' => 'Usuario actualizado'
+            ]);
+        } else {
+            return $this->json([
+                'message' => 'Datos incorrectos'
+            ]);
         }
-
-        return $this->render('personal/edit.html.twig', [
-            'personal' => $personal,
-            'form' => $form->createView(),
-        ]);
     }
 
     /**

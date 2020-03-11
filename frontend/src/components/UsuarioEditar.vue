@@ -14,7 +14,7 @@
               placeholder="Ingrese su nombre"
               id="name"
               required
-              v-model="tutorial.name"
+              v-model="item.name"
               name="name"
             ></v-text-field>
           </div>
@@ -24,7 +24,7 @@
               placeholder="Ingrese su apellido"
               id="lastname"
               required
-              v-model="tutorial.lastname"
+              v-model="item.lastname"
               name="lastname"
             ></v-text-field>
           </div>
@@ -34,7 +34,7 @@
               placeholder="Ingrese su email"
               id="email"
               required
-              v-model="tutorial.email"
+              v-model="item.email"
               name="email"
             ></v-text-field>
           </div>
@@ -44,22 +44,20 @@
               placeholder="Ingrese su ci"
               id="ci"
               required
-              v-model="tutorial.ci"
+              v-model="item.ci"
               name="ci"
             ></v-text-field>
           </div>
-          <v-btn @click="saveTutorial" color="brown">Crear</v-btn>
+          <v-btn @click="editarUsuario" color="brown">Editar</v-btn>
         </panel>
       </v-flex>
+
       <v-flex xs12>
         <router-view />
       </v-flex>
     </v-layout>
   </v-container>
 </template>
-
-
-
 
 <script>
 import axios from "axios";
@@ -72,7 +70,7 @@ export default {
   name: "add-tutorial",
   data() {
     return {
-      tutorial: {
+      item: {
         id: null,
         name: "",
         lastname: "",
@@ -80,38 +78,41 @@ export default {
         ci: ""
       },
       submitted: false
+      //usuario: {}
     };
   },
+  beforeMount() {
+    var id = this.$route.params.id;
+    axios
+      .get(`http://127.0.0.1:8000/apis/personal/${id}`)
+      .then(response => {
+        this.usuario = response.data;
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  },
   methods: {
-    saveTutorial() {
+    editarUsuario() {
+      var id = this.$route.params.id;
       var data = {
-        name: this.tutorial.name,
-        lastname: this.tutorial.lastname,
-        email: this.tutorial.email,
-        ci: this.tutorial.ci
+        name: this.item.name,
+        lastname: this.item.lastname,
+        email: this.item.email,
+        ci: this.item.ci
       };
-      /*
-      TutorialDataService.create(data)
-        .then(response => {
-          this.tutorial.id = response.data.id;
-          console.log(response.data);
-        })
-        .catch(e => {
-          console.log(e);
-        });
-      */
-      //console.log(data);
+
       let json = JSON.stringify(data);
       let params = "json=" + json;
       let headers = new Headers({
         "Content-Type": "application/x-www-form-urlencoded"
       });
       axios
-        .post("http://127.0.0.1:8000/apis/personal", params, {
+        .put(`http://127.0.0.1:8000/apis/personal/${id}`, params, {
           header: headers
         })
         .then(response => {
-          this.tutorial.id = response.data.id;
+          this.item.id = response.data.id;
           console.log(response.data);
         })
         .catch(error => {
