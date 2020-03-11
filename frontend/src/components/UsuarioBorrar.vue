@@ -53,7 +53,7 @@ export default {
   beforeMount() {
     var id = this.$route.params.id;
     axios
-      .get(`http://127.0.0.1:8000/apis/personal/${id}`)
+      .delete(`http://127.0.0.1:8000/apis/personal/${id}`)
       .then(response => {
         this.usuario = response.data;
       })
