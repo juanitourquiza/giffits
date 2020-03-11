@@ -7,48 +7,55 @@
       </v-flex>
 
       <v-flex xs12 sm12>
-        <panel titulo="Información General">
-          <div>
-            <v-text-field
-              label="Nombre"
-              placeholder="Ingrese su nombre"
-              id="name"
-              required
-              v-model="item.name"
-              name="name"
-            ></v-text-field>
+        <panel titulo="Editar Información General">
+          <div v-if="!submitted">
+            <div>
+              <v-text-field
+                label="Nombre"
+                placeholder="Ingrese su nombre"
+                id="name"
+                required
+                v-model="item.name"
+                name="name"
+              ></v-text-field>
+            </div>
+            <div class="mt-2">
+              <v-text-field
+                label="Apellido"
+                placeholder="Ingrese su apellido"
+                id="lastname"
+                required
+                v-model="item.lastname"
+                name="lastname"
+              ></v-text-field>
+            </div>
+            <div class="mt-2">
+              <v-text-field
+                label="Email"
+                placeholder="Ingrese su email"
+                id="email"
+                required
+                v-model="item.email"
+                name="email"
+              ></v-text-field>
+            </div>
+            <div class="mt-2">
+              <v-text-field
+                label="CI"
+                placeholder="Ingrese su ci"
+                id="ci"
+                required
+                v-model="item.ci"
+                name="ci"
+              ></v-text-field>
+            </div>
+            <v-btn @click="editarUsuario" color="brown">Editar</v-btn>
           </div>
-          <div class="mt-2">
-            <v-text-field
-              label="Apellido"
-              placeholder="Ingrese su apellido"
-              id="lastname"
-              required
-              v-model="item.lastname"
-              name="lastname"
-            ></v-text-field>
+
+          <div v-else>
+            <h4>Usuario Editado!</h4>
+            <v-btn color="blue" @click="newUsuario">Agregar</v-btn>
           </div>
-          <div class="mt-2">
-            <v-text-field
-              label="Email"
-              placeholder="Ingrese su email"
-              id="email"
-              required
-              v-model="item.email"
-              name="email"
-            ></v-text-field>
-          </div>
-          <div class="mt-2">
-            <v-text-field
-              label="CI"
-              placeholder="Ingrese su ci"
-              id="ci"
-              required
-              v-model="item.ci"
-              name="ci"
-            ></v-text-field>
-          </div>
-          <v-btn @click="editarUsuario" color="brown">Editar</v-btn>
         </panel>
       </v-flex>
 
@@ -67,7 +74,7 @@ export default {
   components: {
     Panel
   },
-  name: "add-tutorial",
+  name: "editar-usuario",
   data() {
     return {
       item: {
@@ -102,6 +109,7 @@ export default {
         ci: this.item.ci
       };
 
+      console.log(data);
       let json = JSON.stringify(data);
       let params = "json=" + json;
       let headers = new Headers({
@@ -113,7 +121,6 @@ export default {
         })
         .then(response => {
           this.item.id = response.data.id;
-          console.log(response.data);
         })
         .catch(error => {
           console.log(error);
@@ -121,9 +128,9 @@ export default {
       this.submitted = true;
     },
 
-    newTutorial() {
+    newUsuario() {
       this.submitted = false;
-      this.tutorial = {};
+      this.item = {};
     }
   }
 };

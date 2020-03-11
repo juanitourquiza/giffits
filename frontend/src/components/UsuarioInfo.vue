@@ -22,7 +22,7 @@
             <span class="subheading">{{ item.email }}</span>
           </div>
           <div class="mt-2">
-            <span class="title">Ci:</span>
+            <span class="title">CI:</span>
             <span class="subheading">{{ item.ci }}</span>
           </div>
         </panel>

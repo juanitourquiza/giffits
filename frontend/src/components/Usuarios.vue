@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <v-layout justify-center>
-      <v-flex xs12 sm8 md6>
+      <v-flex xs12>
         <v-card>
           <v-toolbar color="green" dark flat>
             <v-toolbar-title>Usuarios</v-toolbar-title>
@@ -11,9 +11,7 @@
               :to="`/usuarios/${usuario.id}`"
               v-for="usuario in usuarios"
               :key="usuario.id"
-            >
-              {{ usuario.name }} {{ usuario.lastname }}
-            </v-list-tile>
+            >{{ usuario.name }} {{ usuario.lastname }}</v-list-tile>
           </v-list>
         </v-card>
         <v-btn to="/usuariosagregar" color="primary">Nuevo</v-btn>

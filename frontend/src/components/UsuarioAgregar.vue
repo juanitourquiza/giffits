@@ -2,53 +2,60 @@
   <v-container grid-list-lg>
     <v-layout wrap>
       <!-- v-for="item in usuario" :key="item.id" -->
+
       <v-flex xs12>
         <v-btn to="/usuarios" color="primary">Listado</v-btn>
       </v-flex>
-
       <v-flex xs12 sm12>
         <panel titulo="Información General">
-          <div>
-            <v-text-field
-              label="Nombre"
-              placeholder="Ingrese su nombre"
-              id="name"
-              required
-              v-model="tutorial.name"
-              name="name"
-            ></v-text-field>
+          <div v-if="!submitted">
+            <div>
+              <v-text-field
+                label="Nombre"
+                placeholder="Ingrese su nombre"
+                id="name"
+                required
+                v-model="item.name"
+                name="name"
+              ></v-text-field>
+            </div>
+            <div class="mt-2">
+              <v-text-field
+                label="Apellido"
+                placeholder="Ingrese su apellido"
+                id="lastname"
+                required
+                v-model="item.lastname"
+                name="lastname"
+              ></v-text-field>
+            </div>
+            <div class="mt-2">
+              <v-text-field
+                label="Email"
+                placeholder="Ingrese su email"
+                id="email"
+                required
+                v-model="item.email"
+                name="email"
+              ></v-text-field>
+            </div>
+            <div class="mt-2">
+              <v-text-field
+                label="CI"
+                placeholder="Ingrese su ci"
+                id="ci"
+                required
+                v-model="item.ci"
+                name="ci"
+              ></v-text-field>
+            </div>
+            <v-btn @click="agregarUsuario" color="brown">Crear</v-btn>
           </div>
-          <div class="mt-2">
-            <v-text-field
-              label="Apellido"
-              placeholder="Ingrese su apellido"
-              id="lastname"
-              required
-              v-model="tutorial.lastname"
-              name="lastname"
-            ></v-text-field>
+
+          <div v-else>
+            <h4>Usuario Creado!</h4>
+            <v-btn color="blue" @click="newUsuario">Agregar</v-btn>
           </div>
-          <div class="mt-2">
-            <v-text-field
-              label="Email"
-              placeholder="Ingrese su email"
-              id="email"
-              required
-              v-model="tutorial.email"
-              name="email"
-            ></v-text-field>
-          </div>
-          <div class="mt-2">
-            <v-text-field
-              label="CI"
-              placeholder="Ingrese su ci"
-              id="ci"
-              required
-              v-model="tutorial.ci"
-              name="ci"
-            ></v-text-field>
-          </div>
-          <v-btn @click="saveTutorial" color="brown">Crear</v-btn>
         </panel>
       </v-flex>
       <v-flex xs12>
@@ -69,10 +76,10 @@ export default {
   components: {
     Panel
   },
-  name: "add-tutorial",
+  name: "agregar-usuario",
   data() {
     return {
-      tutorial: {
+      item: {
         id: null,
         name: "",
         lastname: "",
@@ -83,12 +90,12 @@ export default {
     };
   },
   methods: {
-    saveTutorial() {
+    agregarUsuario() {
       var data = {
-        name: this.tutorial.name,
-        lastname: this.tutorial.lastname,
-        email: this.tutorial.email,
-        ci: this.tutorial.ci
+        name: this.item.name,
+        lastname: this.item.lastname,
+        email: this.item.email,
+        ci: this.item.ci
       };
       /*
       TutorialDataService.create(data)
@@ -111,7 +118,7 @@ export default {
           header: headers
         })
         .then(response => {
-          this.tutorial.id = response.data.id;
+          this.item.id = response.data.id;
           console.log(response.data);
         })
         .catch(error => {
@@ -120,9 +127,9 @@ export default {
       this.submitted = true;
     },
 
-    newTutorial() {
+    newUsuario() {
       this.submitted = false;
-      this.tutorial = {};
+      this.item = {};
     }
   }
 };
