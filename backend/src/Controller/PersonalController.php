@@ -9,56 +9,68 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
+
 /**
- * @Route("/personal")
+ * @Route("/apis")
  */
 class PersonalController extends AbstractController
 {
     /**
-     * @Route("/", name="personal_index", methods={"GET"})
+     * @Route("/personal", name="personal_index", methods={"GET"})
      */
-    public function index(): Response
+    public function index(SerializerInterface $serializer)
     {
         $personals = $this->getDoctrine()
             ->getRepository(Personal::class)
             ->findAll();
-
-        return $this->render('personal/index.html.twig', [
-            'personals' => $personals,
-        ]);
+        return $this->json($personals);
     }
 
     /**
-     * @Route("/new", name="personal_new", methods={"GET","POST"})
+     * @Route("/personal", name="personal_new", methods={"POST"})
      */
     public function new(Request $request): Response
     {
-        $personal = new Personal();
-        $form = $this->createForm(PersonalType::class, $personal);
-        $form->handleRequest($request);
+        $json = $request->get("json", null);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($json != null) {
+            $params = json_decode($json);
+            $name = $params->name;
+            $lastname = $params->lastname;
+            $email = $params->email;
+            $ci = $params->ci;
+
+            $user = new Personal();
+            $user->setName($name);
+            $user->setLastname($lastname);
+            $user->setEmail($email);
+            $user->setCi($ci);
+
             $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($personal);
+            $entityManager->persist($user);
             $entityManager->flush();
 
-            return $this->redirectToRoute('personal_index');
+            return $this->json([
+                'status' => 'sucess','data' => 'Usuario creado']);
+        } else {
+            return $this->json([
+                'message' => 'Datos incorrectos']); 
         }
-
-        return $this->render('personal/new.html.twig', [
-            'personal' => $personal,
-            'form' => $form->createView(),
-        ]);
     }
 
     /**
-     * @Route("/{id}", name="personal_show", methods={"GET"})
+     * @Route("/personal/{id}", name="personal_show", methods={"GET"})
      */
-    public function show(Personal $personal): Response
+    public function show(Request $request): Response
     {
-        return $this->render('personal/show.html.twig', [
-            'personal' => $personal,
-        ]);
+        //$id=1;
+        $id = $request->get("id");
+        $personals = $this->getDoctrine()
+            ->getRepository(Personal::class)
+            ->findById($id);
+        return $this->json($personals);
     }
 
     /**
@@ -86,7 +98,7 @@ class PersonalController extends AbstractController
      */
     public function delete(Request $request, Personal $personal): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$personal->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $personal->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($personal);
             $entityManager->flush();
